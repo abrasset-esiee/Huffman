@@ -1,5 +1,4 @@
 #include "arbre.h"
-#include "element.h"
 
 typedef struct HuffmanOut {
     int tailleTexte;
@@ -10,5 +9,3 @@ typedef struct HuffmanOut {
 } HuffmanOut;
 
 HuffmanOut* createHuffmanOut(char* text);
-
-unsigned char charToBin(Element e, char* text);
