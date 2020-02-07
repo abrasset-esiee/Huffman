@@ -8,8 +8,8 @@ typedef struct _filehuffmanIn{
 	int taillearbre;
 	char * chars;
 	int sizeTreeStructure;
-	char * treestructure;
-	char * contentorder;
+	int * treestructure;
+	int * contentorder;
 }HuffmanIn;
 
 

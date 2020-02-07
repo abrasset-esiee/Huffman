@@ -47,34 +47,6 @@ HuffmanIn *readFileHF(const char *filename)
 	int old,new;
 	int pos = 0;
 	int nbOctet = 1;
-	fcontent->treestructure = (char*) malloc(sizeof(char));
-	while(total < fcontent->taillearbre){
-		
-		int oct ;
-		fread(&oct, 1, 1, fp);
-		fcontent->treestructure = (char*)realloc(fcontent->treestructure,sizeof(char)*8*nbOctet);
-		
-		for(int j = 7; j>=0;j--){
-			new = (oct>>j)&0x1;	
-			if(new== 1 && old == 0){
-				total++;
-			}
-			old = new;
-			fcontent->treestructure[pos] = new;
-			pos++;
-		}
-		nbOctet++;		
-
-	}printf("\n");
-	//fcontent->treestructure = (char*)realloc(fcontent->treestructure,sizeof(char)*8*nbOctet + 1);
-	//fcontent->treestructure[pos+1] = '\0';
-	fcontent->sizeTreeStructure = pos;
-
-	//Recupere l'odre des caracteres avec leur code
-	/*int total = 0;
-	int old,new;
-	int pos = 0;
-	
 	fcontent->treestructure = (int*) malloc(sizeof(int));
 	while(total < fcontent->taillearbre){
 		
@@ -88,17 +60,31 @@ HuffmanIn *readFileHF(const char *filename)
 				total++;
 			}
 			old = new;
+			printf("%d ",new);
 			fcontent->treestructure[pos] = new;
 			pos++;
 		}
 		nbOctet++;		
 
-	}printf("\n");
-	fcontent->sizeTreeStructure = pos;*/
-	/*fcontent->treestructure = (int*) malloc(sizeof(int)*fcontent->taillearbre/8+1);
-	fread(fcontent->treestructure, fcontent->taillearbre/8+1, 1, fp);*/
+	}
+	fcontent->sizeTreeStructure = pos;
 
+	//Recupere l'odre de la chaine caracteres avec leur code
+	fcontent->contentorder = (int*) malloc(sizeof(int));
+	fread(fcontent->contentorder, fcontent->tailletext, 1, fp);
 
+	int oct ;
+	nbOctet = 1;
+	pos = 0;
+	while(!fread(&oct, 1, 1, fp)){
+			
+		fcontent->treestructure = (int*)realloc(fcontent->treestructure,sizeof(int)*8*nbOctet);
+		for(int j = 7; j>=0;j--){
+			fcontent->contentorder[pos] = (oct>>j)&0x1;
+			pos++;
+		}
+		nbOctet++;		
+	}
         fclose(fp);
     }
 
@@ -116,9 +102,15 @@ int main(){
 		printf("%d ", fcontent->chars[i]);
 	}
 	printf("\n");
-	for(int i = 0;i<fcontent->sizeTreeStructure+1;i++){
+	for(int i = 0;i<fcontent->sizeTreeStructure;i++){
 	
 			printf("%d ", fcontent->treestructure[i]);
+
+
+	}
+	for(int i = 0;i<fcontent->tailletext;i++){
+	
+			printf("%d ", fcontent->contentorder[i]);
 
 
 	}
