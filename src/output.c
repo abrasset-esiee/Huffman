@@ -1,4 +1,4 @@
-#include "huffmanout.h"
+#include "output.h"
 #include <stdlib.h>
 
 HuffmanOut* createHuffmanOut(char* text) {
@@ -13,8 +13,4 @@ HuffmanOut* createHuffmanOut(char* text) {
     h->arbre = NULL;
     h->texte = NULL;
     return h;
-}
-
-unsigned char charToBin(Element e, char* text) {
-
 }
