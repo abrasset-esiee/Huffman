@@ -1,10 +1,12 @@
-typedef struct Liste {
-    Element *premier;
-} Liste;
+#include "arbre.h"
 
-typedef struct Element {
-    void *courant;
-    Element *suivant;
-} Element;
+typedef struct ListeNoeud {
+    ElementNoeud *premier;
+} ListeNoeud;
 
-Liste* create_liste(char *text);
+typedef struct ElementNoeud {
+    Noeud *noeud;
+    ElementNoeud *suivant;
+} ElementNoeud;
+
+ListeNoeud* create_liste_noeud(char *text);

@@ -4,15 +4,15 @@
 
 Noeud* create_noeud(Caractere *c, Noeud *g, Noeud *d) {
     Noeud *noeud = (Noeud*) malloc(sizeof(Noeud));
-    noeud->courant = c;
+    noeud->caractere = c;
     noeud->gauche = g;
     noeud->droite = d;
     return noeud;
 }
 
-void build_arbre(Liste *l) {
+// void build_arbre(Liste *l) {
 
-}
+// }
 
 
 // void insert(Noeud *arbre, Element *elem) {
@@ -33,7 +33,7 @@ void build_arbre(Liste *l) {
 void affiche_arbre(Noeud *arbre) {
     if (arbre != NULL) {
         affiche_arbre(arbre->gauche);
-        printf("%c\n", arbre->courant->valeur);
+        printf("%c\n", arbre->caractere->valeur);
         affiche_arbre(arbre->droite);
     }
 }
