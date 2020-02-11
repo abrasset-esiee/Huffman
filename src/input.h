@@ -4,12 +4,12 @@
 
 
 typedef struct _filehuffmanIn{
-	int tailletext;
-	int taillearbre;
-	char * chars;
+    unsigned char tailletext;
+	unsigned char taillearbre;
+	unsigned char * chars;
 	int sizeTreeStructure;
 	int * treestructure;
-	int * contentorder;
+    int * contentorder;
 }HuffmanIn;
 
 
