@@ -1,13 +1,13 @@
-#include "element.h"
+#include "caractere.h"
+#include "liste.h"
 
 typedef struct Noeud {
-    Element *self;
-    struct Noeud *left;
-    struct Noeud *right;
+    Caractere *courant;
+    struct Noeud *gauche;
+    struct Noeud *droite;
 } Noeud;
 
-Noeud* create_arbre();
-Noeud* construct_arbre();
-Noeud* create_noeud(Element *elem, Noeud *left, Noeud *right);
-void insert(Noeud *arbre, Element *elem);
+Noeud* create_noeud(Caractere *c, Noeud *g, Noeud *d);
+void build_arbre(Liste *l);
+// void insert(Noeud *arbre, Element *elem);
 void affiche_arbre(Noeud *arbre);
