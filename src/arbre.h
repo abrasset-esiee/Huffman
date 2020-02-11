@@ -6,4 +6,8 @@ typedef struct Noeud {
     struct Noeud *right;
 } Noeud;
 
-Noeud* create_arbre(Element *elem, Noeud *gauche, Noeud *droit);
+Noeud* create_arbre();
+Noeud* construct_arbre();
+Noeud* create_noeud(Element *elem, Noeud *left, Noeud *right);
+void insert(Noeud *arbre, Element *elem);
+void affiche_arbre(Noeud *arbre);
