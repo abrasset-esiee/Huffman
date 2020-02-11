@@ -28,6 +28,7 @@ ListeNoeud* create_liste_noeud(char *text) {
                 }
             }
         }
+        i++;
     }
     return l;
 }
