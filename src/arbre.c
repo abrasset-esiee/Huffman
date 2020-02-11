@@ -10,11 +10,6 @@ Noeud* create_noeud(Caractere *c, Noeud *g, Noeud *d) {
     return noeud;
 }
 
-// void build_arbre(Liste *l) {
-
-// }
-
-
 // void insert(Noeud *arbre, Element *elem) {
 //     if (arbre != NULL) {
 //         if (arbre->left == NULL) {
@@ -42,21 +37,21 @@ void affiche_arbre(Noeud *arbre) {
 
 //
 
-int main(int argc, char const *argv[]) {
-    Noeud *arbre;
-    // Element *elem1, *elem2;
+// int main(int argc, char const *argv[]) {
+//     Noeud *arbre;
+//     Element *elem1, *elem2;
     
-    // elem1 = (Element*) malloc(sizeof(Element));
-    // elem2 = (Element*) malloc(sizeof(Element));
+//     elem1 = (Element*) malloc(sizeof(Element));
+//     elem2 = (Element*) malloc(sizeof(Element));
 
-    // elem1->value = 'c';
-    // elem2->value = 'h';
+//     elem1->value = 'c';
+//     elem2->value = 'h';
 
-    // arbre = create_arbre();
-    // insert(arbre, elem1);
-    // insert(arbre, elem2);
-    // affiche_arbre(arbre);
+//     arbre = create_arbre();
+//     insert(arbre, elem1);
+//     insert(arbre, elem2);
+//     affiche_arbre(arbre);
 
 
-    return 0;
-}
+//     return 0;
+// }
