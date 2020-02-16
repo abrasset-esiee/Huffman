@@ -14,7 +14,7 @@ ListeNoeud* create_liste_noeud(char *text) {
                 e = (ElementNoeud*) malloc(sizeof(ElementNoeud));
                 Caractere *c = (Caractere*) malloc(sizeof(Caractere));
                 c->valeur = text[i];
-                c->nb_Occurence = 1;
+                c->nb_Occurrence = 1;
                 c->code = NULL;
                 e->noeud = create_noeud(c, NULL, NULL);
                 e->suivant = l->premier;
@@ -22,7 +22,7 @@ ListeNoeud* create_liste_noeud(char *text) {
                 trouve = 1;
             } else {
                 if (e->noeud->caractere->valeur == text[i]) {
-                    e->noeud->caractere->nb_Occurence++;
+                    e->noeud->caractere->nb_Occurrence++;
                     trouve = 1;
                 } else {
                     e = e->suivant;
@@ -58,13 +58,13 @@ void insert(ListeNoeud *l, Noeud* elem) {
         e->suivant = NULL;
     } else {
         //Insertion element en début de liste
-        if (e->noeud->caractere->nb_Occurence <= l->premier->noeud->caractere->nb_Occurence) {
+        if (e->noeud->caractere->nb_Occurrence <= l->premier->noeud->caractere->nb_Occurrence) {
             e->suivant = l->premier;
             l->premier = e;
         } else {
             while (1) {
                 if (parcours->suivant != NULL) { // Insertion en milieu de liste
-                    if (e->noeud->caractere->nb_Occurence > parcours->suivant->noeud->caractere->nb_Occurence) {
+                    if (e->noeud->caractere->nb_Occurrence > parcours->suivant->noeud->caractere->nb_Occurrence) {
                         parcours = parcours->suivant;
                     } else {
                         e->suivant = parcours->suivant;
@@ -87,20 +87,43 @@ void afficheListe(ListeNoeud *l) {
         printf(
             "%c %d\n", 
             parcours->noeud->caractere->valeur, 
-            parcours->noeud->caractere->nb_Occurence
+            parcours->noeud->caractere->nb_Occurrence
         );
         parcours = parcours->suivant;
     }
 }
 
 Noeud* build_arbre(ListeNoeud *l) {
-    return NULL;
+    if (l->premier == NULL) {
+        exit(EXIT_FAILURE);
+    }
+    if (l->premier->suivant == NULL) {
+        return l->premier->noeud;
+    }
+    // Recupération 2 premiers noeuds
+    Noeud *n1 = l->premier->noeud;
+    Noeud *n2 = l->premier->suivant->noeud;
+    // Supprimer les deux premiers elem de la liste
+    l->premier = l->premier->suivant->suivant;
+    // Fusion 2 premiers noeud : nb_Oc de la racine vaut somme des deux
+    Noeud *fusion = (Noeud*) malloc(sizeof(Noeud));
+    Caractere *caractere = (Caractere*) malloc(sizeof(Caractere));
+    caractere->valeur = 0;
+    caractere->nb_Occurrence = n1->caractere->nb_Occurrence + n2->caractere->nb_Occurrence;
+    caractere->code = NULL;
+    fusion->caractere = caractere;
+    fusion->gauche = n1;
+    fusion->droite = n2;
+    // Insert ordonné dans la liste
+    insert(l, fusion);
+    return build_arbre(l);
 }
 
 int main(void) {
     char *test = "mohamed maachaoui";
     ListeNoeud *l = create_liste_noeud(test);
-    afficheListe(l);
     l = sort(l);
-    afficheListe(l);
+    Noeud *n = build_arbre(l);
+    setCodes(n);
+    afficheArbre(n, 0);
 }

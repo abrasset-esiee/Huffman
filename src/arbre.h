@@ -7,5 +7,5 @@ typedef struct Noeud {
 } Noeud;
 
 Noeud* create_noeud(Caractere *c, Noeud *g, Noeud *d);
-// void insert(Noeud *arbre, Element *elem);
-void affiche_arbre(Noeud *arbre);
+void afficheArbre(Noeud *arbre, int nbTab);
+void setCodes(Noeud *n);

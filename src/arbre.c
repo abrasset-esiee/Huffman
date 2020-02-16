@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "arbre.h"
 
 Noeud* create_noeud(Caractere *c, Noeud *g, Noeud *d) {
@@ -10,48 +11,45 @@ Noeud* create_noeud(Caractere *c, Noeud *g, Noeud *d) {
     return noeud;
 }
 
-// void insert(Noeud *arbre, Element *elem) {
-//     if (arbre != NULL) {
-//         if (arbre->left == NULL) {
-//             arbre->left = create_noeud(elem, NULL, NULL);
-//         } else {
-//             insert(arbre->left, elem);
-//         }
-//         if (arbre->right == NULL) {
-//             arbre->right = create_noeud(elem, NULL, NULL);
-//         } else {
-//             insert(arbre->right, elem);
-//         }
-//     }
-// }
-
-void affiche_arbre(Noeud *arbre) {
+void afficheArbre(Noeud *arbre, int nbTab) {
     if (arbre != NULL) {
-        affiche_arbre(arbre->gauche);
-        printf("%c\n", arbre->caractere->valeur);
-        affiche_arbre(arbre->droite);
+        for (int i = 0; i < nbTab; i++) {
+            printf("\t");
+        }
+        printf("(%d)  %c  %s\n", arbre->caractere->nb_Occurrence, arbre->caractere->valeur, arbre->caractere->code);
+        if (arbre->gauche != NULL) {
+            for (int i = 0; i < nbTab; i++) {
+                printf("\t");
+            }
+            printf("  \\--0--\n");
+        }
+        afficheArbre(arbre->gauche, nbTab + 1);
+        if (arbre->droite != NULL) {
+            for (int i = 0; i < nbTab; i++) {
+                printf("\t");
+            }
+            printf("  \\--1--\n");
+        }
+        afficheArbre(arbre->droite, nbTab + 1);
     }
 }
 
-// nb feuilles
-
-//
-
-// int main(int argc, char const *argv[]) {
-//     Noeud *arbre;
-//     Element *elem1, *elem2;
-    
-//     elem1 = (Element*) malloc(sizeof(Element));
-//     elem2 = (Element*) malloc(sizeof(Element));
-
-//     elem1->value = 'c';
-//     elem2->value = 'h';
-
-//     arbre = create_arbre();
-//     insert(arbre, elem1);
-//     insert(arbre, elem2);
-//     affiche_arbre(arbre);
-
-
-//     return 0;
-// }
+void setCodes(Noeud *n) {
+    if (n != NULL) {
+        if (n->caractere->code == NULL) {
+            n->gauche->caractere->code = "0";
+            n->droite->caractere->code = "1";
+        } else {
+            if (n->gauche != NULL) {
+                n->gauche->caractere->code = (char*) malloc(sizeof(char) * (strlen(n->caractere->code) + 10));
+                strcat(n->gauche->caractere->code, strcat(n->caractere->code, "0"));           
+            }
+            if (n->droite != NULL) {
+                n->droite->caractere->code = (char*) malloc(sizeof(char) * (strlen(n->caractere->code) + 10));
+                strcat(n->droite->caractere->code, strcat(n->caractere->code, "1"));
+            }
+        }
+        setCodes(n->gauche);
+        setCodes(n->droite);
+    }
+}
