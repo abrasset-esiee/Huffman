@@ -14,18 +14,20 @@ HuffmanOut* createHuffmanOut(char* text) {
         c = text[i];
     }
     // APPEL CREATION ARBRE HUFFMAN
-    // h->arbre = NULL;
+    ListeNoeud *l = create_liste_noeud(text);
+    l = sort(l);
+    h->arbre = build_arbre(l);
     // APPEL NB FEUILLE ARBRE
-    // h->tailleArbre = 0;
+    h->tailleArbre = nbElement(l);
     // PARCOURS INFIXE POUR STOCKÉ LES CARACTÈRES DE L'ARBRE
     // h->caracteres = NULL;
     h->texte = text;
     return h;
 }
 
-int main(void){
-    char *text = (char*) malloc(100*sizeof(char));
-    text = "yoann la pute";
-    HuffmanOut *h = createHuffmanOut(text);
-    // CONTRUIRE LE FICHIER HF
-}
+// int main(void){
+//     char *text = (char*) malloc(100*sizeof(char));
+//     text = "yoann la pute";
+//     HuffmanOut *h = createHuffmanOut(text);
+//     // CONTRUIRE LE FICHIER HF
+// }

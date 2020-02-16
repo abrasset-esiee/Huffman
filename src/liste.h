@@ -14,3 +14,4 @@ ListeNoeud* sort(ListeNoeud *l);
 void insert(ListeNoeud *l, Noeud* e);
 void afficheListe(ListeNoeud *l);
 Noeud* build_arbre(ListeNoeud *l);
+int nbElement(ListeNoeud *l);
