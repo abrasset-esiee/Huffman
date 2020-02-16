@@ -51,11 +51,9 @@ void insert(ListeNoeud *l, Noeud* elem) {
     ElementNoeud * e = (ElementNoeud *)malloc(sizeof(ElementNoeud));
     e->noeud = elem;
     e->suivant = NULL;
-
     ElementNoeud *parcours = l->premier;
     if (parcours == NULL) { 
         // Insertion premier element pour liste vide
-        printf("Insertion premier element pour liste vide\n");
         l->premier = e;
         e->suivant = NULL;
     } else {
@@ -63,7 +61,7 @@ void insert(ListeNoeud *l, Noeud* elem) {
         if (e->noeud->caractere->nb_Occurence <= l->premier->noeud->caractere->nb_Occurence) {
             e->suivant = l->premier;
             l->premier = e;
-        }else{
+        } else {
             while (1) {
                 if (parcours->suivant != NULL) { // Insertion en milieu de liste
                     if (e->noeud->caractere->nb_Occurence > parcours->suivant->noeud->caractere->nb_Occurence) {
@@ -93,7 +91,6 @@ void afficheListe(ListeNoeud *l) {
         );
         parcours = parcours->suivant;
     }
-    
 }
 
 Noeud* build_arbre(ListeNoeud *l) {
