@@ -40,16 +40,16 @@ ListeNoeud* sort(ListeNoeud *l) {
     ElementNoeud *parcoursSort = l->premier;
     while (parcoursSort != NULL) {
 
-        insert(listeTri, *parcoursSort);
+        insert(listeTri, parcoursSort->noeud);
         parcoursSort = parcoursSort->suivant;
     }
     return listeTri;
 }
 
-void insert(ListeNoeud *l, ElementNoeud elem) {
+void insert(ListeNoeud *l, Noeud* elem) {
     //Création d'un nouvel ElementNoeud
     ElementNoeud * e = (ElementNoeud *)malloc(sizeof(ElementNoeud));
-    e->noeud = elem.noeud;
+    e->noeud = elem;
     e->suivant = NULL;
 
     ElementNoeud *parcours = l->premier;
