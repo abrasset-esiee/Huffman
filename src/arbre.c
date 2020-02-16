@@ -16,7 +16,7 @@ void afficheArbre(Noeud *arbre, int nbTab) {
         for (int i = 0; i < nbTab; i++) {
             printf("\t");
         }
-        printf("(%d)  %c  %s\n", arbre->caractere->nb_Occurrence, arbre->caractere->valeur, arbre->caractere->code);
+        printf("(%d)  %c\n", arbre->caractere->nb_Occurrence, arbre->caractere->valeur);
         if (arbre->gauche != NULL) {
             for (int i = 0; i < nbTab; i++) {
                 printf("\t");
@@ -40,14 +40,12 @@ void setCodes(Noeud *n) {
             n->gauche->caractere->code = "0";
             n->droite->caractere->code = "1";
         } else {
-            //printf("%d\n",strlen(n->caractere->code));
             if (n->gauche != NULL) {
-
-                n->gauche->caractere->code = (char*) malloc(sizeof(char) * (strlen(n->caractere->code) - 1));
+                n->gauche->caractere->code = (char*) malloc(sizeof(char) * (strlen(n->caractere->code) + 1));
                 strcat(strcat(n->gauche->caractere->code,n->caractere->code), "0");
             }
             if (n->droite != NULL) {
-                n->droite->caractere->code = (char*) malloc(sizeof(char) * (strlen(n->caractere->code) - 1));
+                n->droite->caractere->code = (char*) malloc(sizeof(char) * (strlen(n->caractere->code) + 1));
                 strcat(strcat(n->droite->caractere->code,n->caractere->code), "1");
             }
         }

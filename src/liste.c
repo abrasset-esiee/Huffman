@@ -98,6 +98,7 @@ Noeud* build_arbre(ListeNoeud *l) {
         exit(EXIT_FAILURE);
     }
     if (l->premier->suivant == NULL) {
+        setCodes(l->premier->noeud);
         return l->premier->noeud;
     }
     // Recupération 2 premiers noeuds
@@ -124,6 +125,5 @@ int main(void) {
     ListeNoeud *l = create_liste_noeud(test);
     l = sort(l);
     Noeud *n = build_arbre(l);
-    setCodes(n);
     afficheArbre(n, 0);
 }
