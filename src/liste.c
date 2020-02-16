@@ -39,46 +39,44 @@ ListeNoeud* sort(ListeNoeud *l) {
     listeTri->premier = NULL;
     ElementNoeud *parcoursSort = l->premier;
     while (parcoursSort != NULL) {
-        ElementNoeud e = *parcoursSort;
-        insert(listeTri, &e);
+
+        insert(listeTri, *parcoursSort);
         parcoursSort = parcoursSort->suivant;
     }
     return listeTri;
 }
 
-void insert(ListeNoeud *l, ElementNoeud *e) {
-    int estInsere = 0;
+void insert(ListeNoeud *l, ElementNoeud elem) {
+    //Création d'un nouvel ElementNoeud
+    ElementNoeud * e = (ElementNoeud *)malloc(sizeof(ElementNoeud));
+    e->noeud = elem.noeud;
+    e->suivant = NULL;
+
     ElementNoeud *parcours = l->premier;
     if (parcours == NULL) { 
         // Insertion premier element pour liste vide
         printf("Insertion premier element pour liste vide\n");
         l->premier = e;
+        e->suivant = NULL;
     } else {
-        if (e->noeud->caractere->nb_Occurence <= parcours->noeud->caractere->nb_Occurence) {
-            // Insertion en début de liste
-            printf(
-                "Insertion en début de liste : %d <= %d\n",
-                e->noeud->caractere->nb_Occurence,
-                parcours->noeud->caractere->nb_Occurence
-            );
+        //Insertion element en début de liste
+        if (e->noeud->caractere->nb_Occurence <= l->premier->noeud->caractere->nb_Occurence) {
             e->suivant = l->premier;
             l->premier = e;
-            estInsere = 1;
-        }
-        while (!estInsere) {
-            if (parcours->suivant != NULL) { // Insertion en milieu de liste
-                if (e->noeud->caractere->nb_Occurence > parcours->suivant->noeud->caractere->nb_Occurence) {
-                    parcours = parcours->suivant;
-                } else {
-                    printf("Insertion en milieu de liste\n");
-                    e->suivant = parcours->suivant;
+        }else{
+            while (1) {
+                if (parcours->suivant != NULL) { // Insertion en milieu de liste
+                    if (e->noeud->caractere->nb_Occurence > parcours->suivant->noeud->caractere->nb_Occurence) {
+                        parcours = parcours->suivant;
+                    } else {
+                        e->suivant = parcours->suivant;
+                        parcours->suivant = e;
+                        break;
+                    }
+                } else { // Insertion en fin de liste
                     parcours->suivant = e;
-                    estInsere = 1;
+                    break;
                 }
-            } else { // Insertion en fin de liste
-                printf("Insertion en fin de liste\n");
-                parcours->suivant = e;
-                estInsere = 1;
             }
         }
     }
