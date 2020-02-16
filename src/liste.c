@@ -10,7 +10,7 @@ ListeNoeud* create_liste_noeud(char *text) {
         int trouve = 0;
         ElementNoeud *e = l->premier;
         while (!trouve) {
-            if (e == NULL) { // Insertion en fin de Liste
+            if (e == NULL) { // Insertion en debut de liste
                 e = (ElementNoeud*) malloc(sizeof(ElementNoeud));
                 Caractere *c = (Caractere*) malloc(sizeof(Caractere));
                 c->valeur = text[i];
@@ -36,42 +36,56 @@ ListeNoeud* create_liste_noeud(char *text) {
 
 ListeNoeud* sort(ListeNoeud *l) {
     ListeNoeud *listeTri = (ListeNoeud*) malloc(sizeof(ListeNoeud));
-    ElementNoeud *parcours = l->premier;
-    while (parcours != NULL) {
-        insert(listeTri, parcours);
-        parcours = parcours->suivant;
+    listeTri->premier = NULL;
+    ElementNoeud *parcoursSort = l->premier;
+    while (parcoursSort != NULL) {
+        ElementNoeud e = *parcoursSort;
+        insert(listeTri, &e);
+        parcoursSort = parcoursSort->suivant;
     }
-    return listeTri;    
+    return listeTri;
 }
 
 void insert(ListeNoeud *l, ElementNoeud *e) {
     int estInsere = 0;
-    e->suivant = NULL;
     ElementNoeud *parcours = l->premier;
-    if (parcours == NULL 
-    || e->noeud->caractere->nb_Occurence <= parcours->noeud->caractere->nb_Occurence) { 
-        // Insertion en début de liste
-        e->suivant = l->premier;
+    if (parcours == NULL) { 
+        // Insertion premier element pour liste vide
+        printf("Insertion premier element pour liste vide\n");
         l->premier = e;
-        estInsere = 1;
-    }
-    while (!estInsere) {
-        if (parcours->suivant != NULL) { // Insertion en milieu de liste
-            if (e->noeud->caractere->nb_Occurence > parcours->suivant->noeud->caractere->nb_Occurence) {
-                parcours = parcours->suivant;
-            } else {
-                e->suivant = parcours->suivant;
+    } else {
+        if (e->noeud->caractere->nb_Occurence <= parcours->noeud->caractere->nb_Occurence) {
+            // Insertion en début de liste
+            printf(
+                "Insertion en début de liste : %d <= %d\n",
+                e->noeud->caractere->nb_Occurence,
+                parcours->noeud->caractere->nb_Occurence
+            );
+            e->suivant = l->premier;
+            l->premier = e;
+            estInsere = 1;
+        }
+        while (!estInsere) {
+            if (parcours->suivant != NULL) { // Insertion en milieu de liste
+                if (e->noeud->caractere->nb_Occurence > parcours->suivant->noeud->caractere->nb_Occurence) {
+                    parcours = parcours->suivant;
+                } else {
+                    printf("Insertion en milieu de liste\n");
+                    e->suivant = parcours->suivant;
+                    parcours->suivant = e;
+                    estInsere = 1;
+                }
+            } else { // Insertion en fin de liste
+                printf("Insertion en fin de liste\n");
                 parcours->suivant = e;
                 estInsere = 1;
             }
-        } else { // Insertion en fin de liste
-            parcours->suivant = e;
-            estInsere = 1;
         }
     }
 }
 
 void afficheListe(ListeNoeud *l) {
+    printf("-------------------\n");
     ElementNoeud *parcours = l->premier;
     while (parcours != NULL) {
         printf(
@@ -93,6 +107,5 @@ int main(void) {
     ListeNoeud *l = create_liste_noeud(test);
     afficheListe(l);
     l = sort(l);
-    printf("-------------------\n");
     afficheListe(l);
 }
