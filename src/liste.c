@@ -120,10 +120,117 @@ Noeud* build_arbre(ListeNoeud *l) {
     return build_arbre(l);
 }
 
-int main(void) {
-    char *test = "mohamed maachaoui";
+int main() {
+    /*char *test = "mohamed maachaoui";
     ListeNoeud *l = create_liste_noeud(test);
     l = sort(l);
     Noeud *n = build_arbre(l);
-    afficheArbre(n, 0);
+    afficheArbre(n, 0);*/
+
+
+        HuffmanIn *fcontent = readFileHF("../test/exemple-fourni.txt.hf");
+
+    printf("TAILLE FICHIER : %u\n", fcontent->tailletext);
+    printf("NB CARACTERES : %u\n", fcontent->taillearbre);
+    int i;
+    for(i = 0;i<fcontent->taillearbre;i++){
+
+        printf("%c ", fcontent->chars[i]);
+    }
+    printf("\n");
+
+    for( i = 0;i<fcontent->sizeTreeStructure;i++){
+        printf("%d ", fcontent->treestructure[i]);
+    }
+    printf("\n");
+    for(i = 0;i<fcontent->tailletext;i++){
+        printf("%d ", fcontent->contentorder[i]);
+    }
+        HuffmanOut out = inToOut(fcontent);
+    afficheArbre(out.arbre,0);
+
+
+}
+
+
+HuffmanOut inToOut(HuffmanIn* file) {
+    HuffmanOut out;
+    out.tailleArbre = file->taillearbre;
+    out.tailleTexte = file->tailletext;
+    out.caracteres = file->chars;
+    out.arbre = createArbreFromInfix(file);
+
+    return out;
+}
+
+
+Noeud *createArbreFromInfix(HuffmanIn* file){
+    Noeud * racine = (Noeud*)malloc(sizeof(Noeud));
+
+
+    ListeNoeud *pile = (ListeNoeud *)malloc(sizeof(ListeNoeud));
+    int count = -1;
+    int countFeuille = 0;
+    empiler(pile,racine);
+    Noeud *noeud = racine;
+    noeud->gauche = NULL;
+    noeud->droite = NULL;
+
+    while(countFeuille < file->taillearbre){
+        count ++;
+        printf("%d\n",count);
+        if(file->treestructure[count]==0){
+
+            Noeud * n = (Noeud*)malloc(sizeof(Noeud));
+            n->gauche = NULL;
+            n->droite = NULL;
+            Caractere *carac = (Caractere *)malloc(sizeof(Caractere));
+            carac->nb_Occurrence = 0;
+            carac->code = "";
+            carac->valeur = NULL;
+            noeud->caractere = carac;
+            if(noeud->gauche == NULL){
+                printf("gauche\n");
+                noeud->gauche = n;
+            }else{
+                printf("droit\n");
+                noeud->droite = n;
+            }
+            empiler(pile,noeud);
+            //printf("n = %p\n",n);
+            noeud = n;
+        }else{
+            if(file->treestructure[count-1] == 0){
+                printf("feuille  == [%d]=%c \n",countFeuille,file->chars[countFeuille]);
+                Caractere *carac = (Caractere *)malloc(sizeof(Caractere));
+                noeud->caractere = carac;
+                noeud->caractere->valeur = (char)file->chars[countFeuille];
+                countFeuille++;
+            }
+
+            noeud = depiler(pile);
+        }
+
+    }return racine;
+}
+
+void empiler(ListeNoeud * pile, Noeud * n){
+   // printf("empiler = %p\n",n->gauche);
+    //printf("empiler = %p\n",n->droite);
+    ElementNoeud * elem = (ElementNoeud*)malloc(sizeof(ElementNoeud));
+    elem->noeud = n;
+    elem->suivant = pile->premier;
+    pile->premier = elem;
+}
+
+Noeud * depiler(ListeNoeud * pile){
+    if(pile->premier != NULL){
+        ElementNoeud * elem = pile->premier;
+        pile->premier = pile->premier->suivant;
+        //printf("depiler = %p\n",elem->noeud->gauche);
+        return elem->noeud;
+    }else{
+        printf("pile vide");
+        exit(EXIT_FAILURE);
+    }
 }
