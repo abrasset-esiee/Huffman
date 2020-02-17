@@ -1,5 +1,4 @@
-#include "input.h"
-#include "output.h"
+#include "arbre.h"
 
 typedef struct ElementNoeud {
     Noeud *noeud;
@@ -16,8 +15,5 @@ void insert(ListeNoeud *l, Noeud* e);
 void afficheListe(ListeNoeud *l);
 Noeud* build_arbre(ListeNoeud *l);
 int nbElement(ListeNoeud *l);
-Noeud * createArbreFromInfix(HuffmanIn* file);
-HuffmanOut inToOut(HuffmanIn* file);
 void empiler(ListeNoeud * pile, Noeud * n);
 Noeud * depiler(ListeNoeud * pile);
-char *createMot(int *bin_text, int taille_text, Noeud *racine);
