@@ -119,9 +119,17 @@ Noeud *build_arbre(ListeNoeud *l) {
     insert(l, fusion);
     return build_arbre(l);
 }
-
-int main() {
-    /*char *test = "mohamed maachaoui";
+int nbElement(ListeNoeud *l) {
+    ElementNoeud *e = l->premier;
+    int cpt = 0;
+    while (e != NULL) {
+        cpt++;
+        e = e->suivant;
+    }
+    return cpt;
+}
+int main(void) {
+    char *test = "mohamed maachaoui";
     ListeNoeud *l = create_liste_noeud(test);
     l = sort(l);
     Noeud *n = build_arbre(l);

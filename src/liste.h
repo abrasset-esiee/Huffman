@@ -15,6 +15,7 @@ ListeNoeud* sort(ListeNoeud *l);
 void insert(ListeNoeud *l, Noeud* e);
 void afficheListe(ListeNoeud *l);
 Noeud* build_arbre(ListeNoeud *l);
+int nbElement(ListeNoeud *l);
 Noeud * createArbreFromInfix(HuffmanIn* file);
 HuffmanOut inToOut(HuffmanIn* file);
 void empiler(ListeNoeud * pile, Noeud * n);

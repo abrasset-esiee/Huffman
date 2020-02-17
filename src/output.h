@@ -1,4 +1,4 @@
-#include "arbre.h"
+#include "liste.h"
 
 typedef struct HuffmanOut {
     int tailleTexte;
