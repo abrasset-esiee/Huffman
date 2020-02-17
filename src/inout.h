@@ -22,5 +22,5 @@ ListeCaractere* getCaracteres(Noeud *n);
 char *readFileTXT(const char *filename);
 HuffmanIn *readFileHF(const char *filename);
 Noeud * createArbreFromInfix(HuffmanIn* file);
-HuffmanOut inToOut(HuffmanIn* file);
+char* getTextFrom(HuffmanIn *file);
 char *createMot(int *bin_text, int taille_text, Noeud *racine);

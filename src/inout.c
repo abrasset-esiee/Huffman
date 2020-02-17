@@ -123,14 +123,11 @@ HuffmanIn *readFileHF(const char *filename)
     return fcontent;
 }
 
-HuffmanOut inToOut(HuffmanIn *file) {
-    HuffmanOut out;
-    out.tailleArbre = file->taillearbre;
-    out.tailleTexte = file->tailletext;
-    out.caracteres = (char *) file->chars;
-    out.arbre = createArbreFromInfix(file);
-    out.texte = createMot(file->contentorder,out.tailleTexte,out.arbre);
-    return out;
+
+
+char *getTextFrom(HuffmanIn *file) {
+
+    return createMot(file->contentorder,file->tailletext,createArbreFromInfix(file));
 }
 
 Noeud *createArbreFromInfix(HuffmanIn *file) {
