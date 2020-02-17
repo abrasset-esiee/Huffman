@@ -24,10 +24,10 @@ HuffmanOut* createHuffmanOut(char* text) {
     h->texte = text;
     return h;
 }
-
 // int main(void){
 //     char *text = (char*) malloc(100*sizeof(char));
 //     text = "yoann la pute";
 //     HuffmanOut *h = createHuffmanOut(text);
 //     // CONTRUIRE LE FICHIER HF
 // }
+

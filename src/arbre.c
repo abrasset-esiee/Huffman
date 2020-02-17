@@ -1,6 +1,3 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
 #include "arbre.h"
 
 Noeud* create_noeud(Caractere *c, Noeud *g, Noeud *d) {
@@ -53,3 +50,5 @@ void setCodes(Noeud *n) {
         setCodes(n->droite);
     }
 }
+
+

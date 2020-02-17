@@ -2,6 +2,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "input.h"
+#include "output.h"
+
 char *readFileTXT(const char *filename)
 {
     char *fcontent = NULL;
@@ -34,10 +36,8 @@ HuffmanIn *readFileHF(const char *filename)
         fcontent = (HuffmanIn*) malloc(sizeof(HuffmanIn));
         fread(&(fcontent->tailletext), 4, 1, fp);
 
-
 	    //Recupere le nombre de characteres presents
 	    fread(&(fcontent->taillearbre), 1, 1, fp);
-
 
         //Recupere les caracteres en ASCII
         fcontent->chars = (char*) malloc(sizeof(char)*fcontent->taillearbre);
@@ -65,38 +65,31 @@ HuffmanIn *readFileHF(const char *filename)
                 pos++;
             }
             nbOctet++;
-
 	    }
         fcontent->sizeTreeStructure = pos;
 
         //Recupere l'odre de la chaine caracteres avec leur code
         fcontent->contentorder = (int*) malloc(sizeof(int));
-        //fread(fcontent->contentorder, fcontent->tailletext, 1, fp);
 
         int oct ;
         nbOctet = 1;
         pos = 0;
         while(!feof(fp)){
-
             fcontent->contentorder = (int*)realloc(fcontent->contentorder,sizeof(int)*8*nbOctet++);
             int j;
             if(fread(&oct, 1, 1, fp)==1){
                 for( j = 7; j>=0;j--){
 
-                    fcontent->contentorder[pos] = (int)oct >> j & 0x1;
+                    fcontent->contentorder[pos] = (int)(oct >> j & 0x1);
                     pos++;
                 }
-                //nbOctet++;
-
             }
         }
             fclose(fp);
     }
-
     return fcontent;
-
 }
-
+/*
 int main(){
 	HuffmanIn *fcontent = readFileHF("../test/exemple-fourni.txt.hf");
 
@@ -110,21 +103,12 @@ int main(){
 	printf("\n");
 
 	for( i = 0;i<fcontent->sizeTreeStructure;i++){
-	
 			printf("%d ", fcontent->treestructure[i]);
-
-
 	}
 	for(i = 0;i<fcontent->tailletext;i++){
-	
-			printf("%d ", fcontent->contentorder[i]);
-
-
+				printf("%d ", fcontent->contentorder[i]);
 	}
-
-	
-
-	
-}
+	HuffmanOut out = InToOut(fcontent);
+}*/
 
 

@@ -2,8 +2,8 @@
 #include <stdlib.h>
 #include "liste.h"
 
-ListeNoeud* create_liste_noeud(char *text) {
-    ListeNoeud *l = (ListeNoeud*) malloc(sizeof(ListeNoeud));
+ListeNoeud *create_liste_noeud(const char *text) {
+    ListeNoeud *l = (ListeNoeud *) malloc(sizeof(ListeNoeud));
     l->premier = NULL;
     int i = 0;
     while (text[i] != '\0') {
@@ -11,8 +11,8 @@ ListeNoeud* create_liste_noeud(char *text) {
         ElementNoeud *e = l->premier;
         while (!trouve) {
             if (e == NULL) { // Insertion en debut de liste
-                e = (ElementNoeud*) malloc(sizeof(ElementNoeud));
-                Caractere *c = (Caractere*) malloc(sizeof(Caractere));
+                e = (ElementNoeud *) malloc(sizeof(ElementNoeud));
+                Caractere *c = (Caractere *) malloc(sizeof(Caractere));
                 c->valeur = text[i];
                 c->nb_Occurrence = 1;
                 c->code = NULL;
@@ -34,8 +34,8 @@ ListeNoeud* create_liste_noeud(char *text) {
     return l;
 }
 
-ListeNoeud* sort(ListeNoeud *l) {
-    ListeNoeud *listeTri = (ListeNoeud*) malloc(sizeof(ListeNoeud));
+ListeNoeud *sort(ListeNoeud *l) {
+    ListeNoeud *listeTri = (ListeNoeud *) malloc(sizeof(ListeNoeud));
     listeTri->premier = NULL;
     ElementNoeud *parcoursSort = l->premier;
     while (parcoursSort != NULL) {
@@ -46,13 +46,13 @@ ListeNoeud* sort(ListeNoeud *l) {
     return listeTri;
 }
 
-void insert(ListeNoeud *l, Noeud* elem) {
+void insert(ListeNoeud *l, Noeud *elem) {
     //Création d'un nouvel ElementNoeud
-    ElementNoeud * e = (ElementNoeud *)malloc(sizeof(ElementNoeud));
+    ElementNoeud *e = (ElementNoeud *) malloc(sizeof(ElementNoeud));
     e->noeud = elem;
     e->suivant = NULL;
     ElementNoeud *parcours = l->premier;
-    if (parcours == NULL) { 
+    if (parcours == NULL) {
         // Insertion premier element pour liste vide
         l->premier = e;
         e->suivant = NULL;
@@ -85,15 +85,15 @@ void afficheListe(ListeNoeud *l) {
     ElementNoeud *parcours = l->premier;
     while (parcours != NULL) {
         printf(
-            "%c %d\n", 
-            parcours->noeud->caractere->valeur, 
-            parcours->noeud->caractere->nb_Occurrence
+                "%c %d\n",
+                parcours->noeud->caractere->valeur,
+                parcours->noeud->caractere->nb_Occurrence
         );
         parcours = parcours->suivant;
     }
 }
 
-Noeud* build_arbre(ListeNoeud *l) {
+Noeud *build_arbre(ListeNoeud *l) {
     if (l->premier == NULL) {
         exit(EXIT_FAILURE);
     }
@@ -107,8 +107,8 @@ Noeud* build_arbre(ListeNoeud *l) {
     // Supprimer les deux premiers elem de la liste
     l->premier = l->premier->suivant->suivant;
     // Fusion 2 premiers noeud : nb_Oc de la racine vaut somme des deux
-    Noeud *fusion = (Noeud*) malloc(sizeof(Noeud));
-    Caractere *caractere = (Caractere*) malloc(sizeof(Caractere));
+    Noeud *fusion = (Noeud *) malloc(sizeof(Noeud));
+    Caractere *caractere = (Caractere *) malloc(sizeof(Caractere));
     caractere->valeur = 0;
     caractere->nb_Occurrence = n1->caractere->nb_Occurrence + n2->caractere->nb_Occurrence;
     caractere->code = NULL;
@@ -119,7 +119,6 @@ Noeud* build_arbre(ListeNoeud *l) {
     insert(l, fusion);
     return build_arbre(l);
 }
-
 int nbElement(ListeNoeud *l) {
     ElementNoeud *e = l->premier;
     int cpt = 0;
@@ -129,11 +128,148 @@ int nbElement(ListeNoeud *l) {
     }
     return cpt;
 }
-
 int main(void) {
     char *test = "mohamed maachaoui";
     ListeNoeud *l = create_liste_noeud(test);
     l = sort(l);
     Noeud *n = build_arbre(l);
-    afficheArbre(n, 0);
+    afficheArbre(n, 0);*/
+
+
+    HuffmanIn *fcontent = readFileHF("../test/exemple-fourni.txt.hf");
+
+    printf("TAILLE FICHIER : %u\n", fcontent->tailletext);
+    printf("NB CARACTERES : %u\n", fcontent->taillearbre);
+    int i;
+    for (i = 0; i < fcontent->taillearbre; i++) {
+
+        printf("%c ", fcontent->chars[i]);
+    }
+    printf("\n");
+
+    for (i = 0; i < fcontent->sizeTreeStructure; i++) {
+        printf("%d ", fcontent->treestructure[i]);
+    }
+    printf("\n");
+    for (i = 0; i < fcontent->tailletext; i++) {
+        printf("%d ", fcontent->contentorder[i]);
+    }
+    HuffmanOut out = inToOut(fcontent);
+    //afficheArbre(out.arbre, 0);
+    printf("mot = %s",out.texte);
+
+
 }
+
+
+HuffmanOut inToOut(HuffmanIn *file) {
+    HuffmanOut out;
+    out.tailleArbre = file->taillearbre;
+    out.tailleTexte = file->tailletext;
+    out.caracteres = (char *) file->chars;
+    out.arbre = createArbreFromInfix(file);
+    out.texte = createMot(file->contentorder,out.tailleTexte,out.arbre);
+    return out;
+}
+
+
+Noeud *createArbreFromInfix(HuffmanIn *file) {
+    Noeud *racine = (Noeud *) malloc(sizeof(Noeud));
+
+
+    ListeNoeud *pile = (ListeNoeud *) malloc(sizeof(ListeNoeud));
+    int count = -1;
+    int countFeuille = 0;
+    empiler(pile, racine);
+    Noeud *noeud = racine;
+    noeud->gauche = NULL;
+    noeud->droite = NULL;
+
+    while (countFeuille < file->taillearbre) {
+        count++;
+        if (file->treestructure[count] == 0) {
+
+            Noeud *n = (Noeud *) malloc(sizeof(Noeud));
+            n->gauche = NULL;
+            n->droite = NULL;
+            Caractere *carac = (Caractere *) malloc(sizeof(Caractere));
+            carac->nb_Occurrence = 0;
+            carac->code = "";
+            carac->valeur = 0;
+            noeud->caractere = carac;
+            if (noeud->gauche == NULL) {
+                noeud->gauche = n;
+            } else {
+                noeud->droite = n;
+            }
+            empiler(pile, noeud);
+            noeud = n;
+        } else {
+            if (file->treestructure[count - 1] == 0) {
+                Caractere *carac = (Caractere *) malloc(sizeof(Caractere));
+                noeud->caractere = carac;
+                noeud->caractere->valeur = (char) file->chars[countFeuille];
+                countFeuille++;
+            }
+
+            noeud = depiler(pile);
+        }
+
+    }
+    return racine;
+}
+
+void empiler(ListeNoeud *pile, Noeud *n) {
+    ElementNoeud *elem = (ElementNoeud *) malloc(sizeof(ElementNoeud));
+    elem->noeud = n;
+    elem->suivant = pile->premier;
+    pile->premier = elem;
+}
+
+Noeud *depiler(ListeNoeud *pile) {
+    if (pile->premier != NULL) {
+        ElementNoeud *elem = pile->premier;
+        pile->premier = pile->premier->suivant;
+        return elem->noeud;
+    } else {
+        printf("pile vide");
+        exit(EXIT_FAILURE);
+    }
+}
+
+
+
+
+char *createMot(int *bin_text, int taille_text, Noeud *racine) {
+    char * mot = (char *)malloc(taille_text + 1);
+    int count = 0;
+
+    int i = 0;
+    while (count < taille_text) {
+        Noeud *current = racine;
+        while (current->caractere->valeur == 0) {
+            //printf("%d %d\n",i,count);
+
+            if (bin_text[i]==0) {
+                current = current->gauche;
+            } else {
+                current = current->droite;
+            }
+
+            i++;
+        }
+        printf("\n%d %d",i,count);
+        mot[count] = current->caractere->valeur;
+
+        count++;
+    }
+
+    mot[taille_text] = '\0';
+    return mot;
+
+}
+
+
+
+
+
