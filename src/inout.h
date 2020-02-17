@@ -12,12 +12,13 @@ typedef struct HuffmanIn{
 typedef struct HuffmanOut {
     int tailleTexte;
 	int tailleArbre;
-	char* caracteres;
+	ListeCaractere *caracteres;
 	struct Noeud* arbre;
 	char* texte;
 } HuffmanOut;
 
 HuffmanOut* createHuffmanOut(char* text);
+ListeCaractere* getCaracteres(Noeud *n);
 char *readFileTXT(const char *filename);
 HuffmanIn *readFileHF(const char *filename);
 Noeud * createArbreFromInfix(HuffmanIn* file);

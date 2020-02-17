@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "inout.h"
 
 HuffmanOut* createHuffmanOut(char* text) {
@@ -19,10 +20,21 @@ HuffmanOut* createHuffmanOut(char* text) {
     // APPEL NB FEUILLE ARBRE
     h->tailleArbre = nbElement(l);
     // PARCOURS INFIXE POUR STOCKER LES CARACTÈRES DE L'ARBRE
-    
-    // h->caracteres = NULL;
+    // char caracteres[h->tailleArbre];
+    // h->caracteres = getCaracteres(h->arbre, caracteres, 0);
     h->texte = text;
     return h;
+}
+
+int main(void){
+    char *text = (char*) malloc(100*sizeof(char));
+    text = "mohamed maachaoui";
+    HuffmanOut *h = createHuffmanOut(text);
+    // afficheArbre(h->arbre, 0);
+    for (int i = 0; i < h->tailleArbre; i++) {
+        printf("%c\n", h->caracteres[i]);
+    }
+    // CONTRUIRE LE FICHIER HF
 }
 
 char *readFileTXT(const char *filename)
@@ -191,13 +203,6 @@ char *createMot(int *bin_text, int taille_text, Noeud *racine) {
     mot[taille_text] = '\0';
     return mot;
 
-}
-
-int main(void){
-    char *text = (char*) malloc(100*sizeof(char));
-    text = "yoann la pute";
-    HuffmanOut *h = createHuffmanOut(text);
-    // CONTRUIRE LE FICHIER HF
 }
 
 // int main(void) {
