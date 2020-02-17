@@ -80,7 +80,7 @@ HuffmanIn *readFileHF(const char *filename)
             if(fread(&oct, 1, 1, fp)==1){
                 for( j = 7; j>=0;j--){
 
-                    fcontent->contentorder[pos] = (int)oct >> j & 0x1;
+                    fcontent->contentorder[pos] = (int)(oct >> j & 0x1);
                     pos++;
                 }
             }
