@@ -327,16 +327,15 @@ char *createMot(int *bin_text, int taille_text, Noeud *racine) {
 }
 
 int main(void){
-    HuffmanIn *fcontent = readFileHF("test.txt.hf");
-    HuffmanOut *h = createHuffmanOut(text);
-    char *text = (char*) malloc(100*sizeof(char));
-    char *text2 = getTextFrom(fcontent);
+  
+	char *text = (char*) malloc(100*sizeof(char));
+	text = "mohamed maachaoui";
 
-    text = "mohamed maachaoui";
-	
-    compress(h);    
-	
-    afficheArbre(createArbreFromInfix(fcontent), 0);
-	
-    printf("%s\n", text2);
+
+	HuffmanOut *h = createHuffmanOut(text);
+	compress(h);    
+	HuffmanIn *fcontent = readFileHF("test.txt.hf");
+	afficheArbre(createArbreFromInfix(fcontent), 0);
+	char *text2 = getTextFrom(fcontent);
+	printf("%s\n", text2);
 }
