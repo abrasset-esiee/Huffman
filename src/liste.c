@@ -119,6 +119,7 @@ Noeud *build_arbre(ListeNoeud *l) {
     insert(l, fusion);
     return build_arbre(l);
 }
+
 int nbElement(ListeNoeud *l) {
     ElementNoeud *e = l->premier;
     int cpt = 0;

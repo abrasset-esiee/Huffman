@@ -3,6 +3,9 @@
 #include <string.h>
 #include "inout.h"
 
+int ind = 0;
+int indexParcours = 0;
+
 HuffmanOut* createHuffmanOut(char* text) {
     HuffmanOut *h = (HuffmanOut*) malloc(sizeof(HuffmanOut));
     int i = 0;
@@ -15,25 +18,47 @@ HuffmanOut* createHuffmanOut(char* text) {
     }
     // APPEL CREATION ARBRE HUFFMAN
     ListeNoeud *l = create_liste_noeud(text);
-    l = sort(l);
-    h->arbre = build_arbre(l);
     // APPEL NB FEUILLE ARBRE
     h->tailleArbre = nbElement(l);
+    l = sort(l);
+    h->arbre = build_arbre(l);
     // PARCOURS INFIXE POUR STOCKER LES CARACTÈRES DE L'ARBRE
-    // char caracteres[h->tailleArbre];
-    // h->caracteres = getCaracteres(h->arbre, caracteres, 0);
+    h->caracteres = (char*) malloc(sizeof(char) * h->tailleArbre);
+    int* parcours = (int*) malloc(sizeof(int));
+    getCaracteres(h->arbre, h->caracteres, parcours);
+    for (int i = 0; i < (indexParcours + 1); i++) {
+        printf("%d", parcours[i]);
+    }
+    printf("\n");
     h->texte = text;
     return h;
+}
+
+void getCaracteres(Noeud *n, char *c, int *parcours) {
+    if (n != NULL) {
+        if (n->gauche != NULL) {
+            parcours[indexParcours++] = 0;
+            parcours = realloc(parcours, sizeof(int) * (indexParcours + 1));
+            getCaracteres(n->gauche, c, parcours);
+        }
+        if (n->gauche == NULL && n->droite == NULL) {
+            c[ind] = n->caractere->valeur;
+            ind++;
+        }
+        if (n->droite != NULL) {
+            parcours[indexParcours++] = 0;
+            parcours = realloc(parcours, sizeof(int) * (indexParcours + 1));
+            getCaracteres(n->droite, c, parcours);
+        }
+    }
+    parcours[indexParcours++] = 1;
+    parcours = realloc(parcours, sizeof(int) * (indexParcours + 1));
 }
 
 int main(void){
     char *text = (char*) malloc(100*sizeof(char));
     text = "mohamed maachaoui";
     HuffmanOut *h = createHuffmanOut(text);
-    // afficheArbre(h->arbre, 0);
-    for (int i = 0; i < h->tailleArbre; i++) {
-        printf("%c\n", h->caracteres[i]);
-    }
     // CONTRUIRE LE FICHIER HF
 }
 
