@@ -21,16 +21,13 @@ HuffmanOut* createHuffmanOut(char* text) {
     // APPEL NB FEUILLE ARBRE
     h->tailleArbre = nbElement(l);
     l = sort(l);
+    ListeCaractere *lc = create_liste_caracteres(l);
     h->arbre = build_arbre(l);
+    h->texte = generateEncodeText(text, lc);
     // PARCOURS INFIXE POUR STOCKER LES CARACTÈRES DE L'ARBRE
     h->caracteres = (char*) malloc(sizeof(char) * h->tailleArbre);
-    int* parcours = (int*) malloc(sizeof(int));
-    getCaracteres(h->arbre, h->caracteres, parcours);
-    for (int i = 0; i < (indexParcours + 1); i++) {
-        printf("%d", parcours[i]);
-    }
-    printf("\n");
-    h->texte = text;
+    h->parcours = (int*) malloc(sizeof(int));
+    getCaracteres(h->arbre, h->caracteres, h->parcours);
     return h;
 }
 
@@ -55,11 +52,73 @@ void getCaracteres(Noeud *n, char *c, int *parcours) {
     parcours = realloc(parcours, sizeof(int) * (indexParcours + 1));
 }
 
+char* generateEncodeText(char* text, ListeCaractere *l) {
+    char* encodeText = (char*) malloc(sizeof(char));
+    int i = 0;
+    char c = text[i];
+    while (c != '\0') {
+        ElementCaractere *e = l->premier;
+        while (e != NULL) {
+            if (c == e->caractere->valeur) {
+                encodeText = realloc(encodeText, sizeof(char) * (strlen(encodeText) + strlen(e->caractere->code)));
+                strcat(encodeText, e->caractere->code);
+                break;
+            }
+            e = e->suivant;
+        }
+        i++;
+        c = text[i];
+    }
+    return encodeText;
+}
+
+void compress(HuffmanOut *h) {
+    FILE *file = fopen("test.txt.hf", "wb");
+    fwrite(&(h->tailleTexte), 4, 1, file);
+    fwrite(&(h->tailleArbre), 1, 1, file);
+    for (int i = 0; i < h->tailleArbre; i++) {
+        fwrite(&(h->caracteres[i]), 1, 1, file);
+    }
+    unsigned char code;
+    int old = 0;
+    int cpt = 0;
+    int i;
+    for (i = 0; i < indexParcours; i++) {
+        if (old == 0 && h->parcours[i] == 1) {
+            cpt++;
+        }
+        code = (code << 1) | h->parcours[i];
+        if (cpt == h->tailleArbre - 1) {
+            break;
+        }
+        old = h->parcours[i];
+    }
+    int nbOctet = i / 8;
+    if (i % 8 != 0) {
+        nbOctet++;
+    }
+    fwrite(&code, nbOctet, 1, file);
+    unsigned char code2;
+    for (int i = 0; i < strlen(h->texte); i++) {
+        code2 = (code2 << 1) | ((int) h->texte[i] - 48);
+    }
+    nbOctet = (int) strlen(h->texte) / 8;
+    if ((int) strlen(h->texte) % 8 != 0) {
+        nbOctet++;
+    }
+    fwrite(&code2, nbOctet, 1, file);
+    fclose(file);
+}
+
 int main(void){
     char *text = (char*) malloc(100*sizeof(char));
     text = "mohamed maachaoui";
     HuffmanOut *h = createHuffmanOut(text);
-    // CONTRUIRE LE FICHIER HF
+    compress(h);
+    HuffmanIn *fcontent = readFileHF("test.txt.hf");
+    afficheArbre(createArbreFromInfix(fcontent), 0);
+    char *text2 = getTextFrom(fcontent);
+    printf("%s\n", text2);
 }
 
 char *readFileTXT(const char *filename)

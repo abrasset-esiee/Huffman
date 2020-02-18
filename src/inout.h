@@ -13,12 +13,15 @@ typedef struct HuffmanOut {
     int tailleTexte;
 	int tailleArbre;
 	char *caracteres;
-	struct Noeud* arbre;
-	char* texte;
+	struct Noeud *arbre;
+	int *parcours;
+	char *texte;
 } HuffmanOut;
 
 HuffmanOut* createHuffmanOut(char* text);
 void getCaracteres(Noeud *n, char *c, int *parcours);
+char* generateEncodeText(char* text, ListeCaractere *l);
+void compress(HuffmanOut *h);
 char *readFileTXT(const char *filename);
 HuffmanIn *readFileHF(const char *filename);
 Noeud * createArbreFromInfix(HuffmanIn* file);

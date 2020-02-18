@@ -3,8 +3,6 @@
 #include <string.h>
 #include "caractere.h"
 
-
-
 typedef struct Noeud {
     Caractere *caractere;
     struct Noeud *gauche;

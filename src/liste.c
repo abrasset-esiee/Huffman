@@ -147,3 +147,24 @@ Noeud *depiler(ListeNoeud *pile) {
         exit(EXIT_FAILURE);
     }
 }
+
+ListeCaractere* create_liste_caracteres(ListeNoeud *l) {
+    ListeCaractere *new = (ListeCaractere*) malloc(sizeof(ListeCaractere));
+    ElementNoeud *n = l->premier;
+    while (n != NULL) {
+        ElementCaractere *c = (ElementCaractere*) malloc(sizeof(ElementCaractere));
+        c->caractere = n->noeud->caractere;
+        c->suivant = new->premier;
+        new->premier = c;
+        n = n->suivant;
+    }
+    return new;
+}
+
+void afficheListeCaracteres(ListeCaractere *l) {
+    ElementCaractere *e = l->premier;
+    while (e != NULL) {
+        printf("%c %s\n", e->caractere->valeur, e->caractere->code);
+        e = e->suivant;
+    }
+}

@@ -10,13 +10,12 @@ typedef struct ListeNoeud {
 } ListeNoeud;
 
 typedef struct ElementCaractere {
-    char c;
+    Caractere *caractere;
     struct ElementCaractere *suivant;    
 } ElementCaractere;
 
 typedef struct ListeCaractere {
     ElementCaractere *premier;
-    ElementCaractere *dernier;
 } ListeCaractere;
 
 ListeNoeud* create_liste_noeud(const char *text);
@@ -27,3 +26,5 @@ Noeud* build_arbre(ListeNoeud *l);
 int nbElement(ListeNoeud *l);
 void empiler(ListeNoeud * pile, Noeud * n);
 Noeud * depiler(ListeNoeud * pile);
+ListeCaractere* create_liste_caracteres(ListeNoeud *l);
+void afficheListeCaracteres(ListeCaractere *l);
