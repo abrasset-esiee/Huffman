@@ -2,20 +2,20 @@
 
 typedef struct HuffmanIn{
     unsigned char tailletext;
-	unsigned char taillearbre;
-	unsigned char * chars;
-	int sizeTreeStructure;
-	int * treestructure;
+    unsigned char taillearbre;
+    unsigned char * chars;
+    int sizeTreeStructure;
+    int * treestructure;
     int * contentorder;
 } HuffmanIn;
 
 typedef struct HuffmanOut {
     int tailleTexte;
-	int tailleArbre;
-	char *caracteres;
-	struct Noeud *arbre;
-	int *parcours;
-	char *texte;
+    int tailleArbre;
+    char *caracteres;
+    struct Noeud *arbre;
+    int *parcours;
+    char *texte;
 } HuffmanOut;
 
 HuffmanOut* createHuffmanOut(char* text);
